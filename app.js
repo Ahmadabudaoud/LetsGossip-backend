@@ -1,11 +1,11 @@
 const express = require("express");
-const userRoutes = require("./routes/users");
 const cors = require("cors");
 const { localStrategy } = require("./middleware/passport");
 const { jwtStrategy } = require("./middleware/passport");
 const passport = require("passport");
 // Routes
 const path = require("path");
+const userRoutes = require("./routes/users");
 
 const app = express();
 app.use(passport.initialize());
@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(cors());
 app.use(userRoutes);
 
+//Middlewares
 app.use((req, res, next) => {
   const err = new Error("Path Not Found");
   err.status = 404;
@@ -28,8 +29,10 @@ app.use((err, req, res, next) => {
   });
 });
 
+/// Run
 const run = async () => {
   await app.listen(8000);
+  console.log("app is running");
 };
 
 run();
