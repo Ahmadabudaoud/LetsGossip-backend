@@ -1,10 +1,11 @@
+//Libraries requires
 const express = require("express");
 const cors = require("cors");
+const passport = require("passport");
+//Middlewares requires
 const { localStrategy } = require("./middleware/passport");
 const { jwtStrategy } = require("./middleware/passport");
-const passport = require("passport");
-// Routes
-const path = require("path");
+//Routes requires
 const userRoutes = require("./routes/users");
 
 const app = express();
@@ -13,6 +14,9 @@ passport.use(localStrategy);
 passport.use(jwtStrategy);
 app.use(express.json());
 app.use(cors());
+app.use("/media", express.static("media"));
+
+//App.user routes
 app.use(userRoutes);
 
 //Middlewares
