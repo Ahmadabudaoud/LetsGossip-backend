@@ -7,6 +7,9 @@ const { localStrategy } = require("./middleware/passport");
 const { jwtStrategy } = require("./middleware/passport");
 //Routes requires
 const userRoutes = require("./routes/users");
+const chatRoutes = require("./routes/chats");
+const messageRoutes = require("./routes/messages");
+const conversationRoutes = require("./routes/conversations");
 
 const app = express();
 app.use(passport.initialize());
@@ -18,7 +21,9 @@ app.use("/media", express.static("media"));
 
 //App.user routes
 app.use(userRoutes);
-
+app.use("/chats", chatRoutes);
+app.use("/messages", messageRoutes);
+app.use("/conversations", conversationRoutes);
 //Middlewares
 app.use((req, res, next) => {
   const err = new Error("Path Not Found");
