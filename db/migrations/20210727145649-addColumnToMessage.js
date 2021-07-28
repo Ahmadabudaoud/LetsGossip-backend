@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.addColumn("Messages", "userId", Sequelize.STRING, {
+    await queryInterface.addColumn("Messages", "userId", Sequelize.INTEGER, {
       references: {
         model: {
           tableName: "Users",
