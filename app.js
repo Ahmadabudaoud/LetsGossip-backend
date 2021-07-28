@@ -10,7 +10,7 @@ const userRoutes = require("./routes/users");
 const chatRoutes = require("./routes/chats");
 const messageRoutes = require("./routes/messages");
 const conversationRoutes = require("./routes/conversations");
-
+const friendShipRoutes = require("./routes/friendShips");
 const app = express();
 app.use(passport.initialize());
 passport.use(localStrategy);
@@ -24,6 +24,7 @@ app.use(userRoutes);
 app.use("/chats", chatRoutes);
 app.use("/messages", messageRoutes);
 app.use("/conversations", conversationRoutes);
+app.use("/friends", friendShipRoutes);
 //Middlewares
 app.use((req, res, next) => {
   const err = new Error("Path Not Found");
