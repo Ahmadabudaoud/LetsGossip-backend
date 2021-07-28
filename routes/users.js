@@ -6,6 +6,7 @@ const {
   signup,
   signin,
   updateUser,
+  userList,
 } = require("../controllers/userControllers");
 
 const router = express.Router();
@@ -16,6 +17,7 @@ router.post(
   signin
 );
 router.post("/signup", signup);
+router.get("/users", userList);
 
 router.put(
   "/:userId",

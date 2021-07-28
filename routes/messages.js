@@ -1,5 +1,6 @@
 //setup
 const express = require("express");
+const passport = require("passport");
 const router = express.Router();
 
 //controllers
@@ -10,8 +11,7 @@ const {
 
 router.post(
   "/",
-  // passport.authenticate("jwt", { session: false }),
-
+  passport.authenticate("jwt", { session: false }),
   messageCreate
 );
 

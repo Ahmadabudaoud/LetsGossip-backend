@@ -1,15 +1,15 @@
 //moodel
-const { Chat } = require("../db/models");
+const { Chat, Message } = require("../db/models");
 
 exports.chatList = async (req, res, next) => {
   try {
     const chats = await Chat.findAll({
       attributes: { exclude: ["createdAt"] },
-      // include: {
-      //   model: Product,
-      //   as: "products",
-      //   attributes: ["id"],
-      // },
+      include: {
+        model: Message,
+        as: "messages",
+        attributes: ["id"],
+      },
     });
     res.json(chats);
   } catch (error) {

@@ -21,11 +21,11 @@ module.exports = (sequelize, DataTypes) => {
 
     models.Chat.hasMany(Message, {
       foreignKey: "chatId",
-      as: "chats",
+      as: "messages",
     });
     Message.belongsTo(models.Chat, {
       foreignKey: "chatId",
-      as: "chat",
+      as: "messages",
     });
   };
   return Message;
