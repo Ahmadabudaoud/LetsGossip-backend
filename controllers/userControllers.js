@@ -35,6 +35,7 @@ const generateToken = (user) => {
 exports.updateUser = async (req, res, next) => {
   try {
     const foundUser = await User.findByPk(req.body.userId);
+
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(
       req.body.currentpassword,
@@ -42,14 +43,15 @@ exports.updateUser = async (req, res, next) => {
     );
     req.body.currentpassword = hashedPassword;
 
-    const match = await bcrypt.compare(
-      (hashedPassword, req.body.currentpassword)
-    );
+    const match = await bcrypt.compare(hashedPassword, foundUser.password);
+    console.log(hashedPassword, "2");
+    console.log(foundUser.password, "1");
     if (match) {
       const newHashedPassword = await bcrypt.hash(
         req.body.password,
         saltRounds
       );
+      console.log(1);
       req.body.password = newHashedPassword;
       await foundUser.update(req.body);
     } else {
