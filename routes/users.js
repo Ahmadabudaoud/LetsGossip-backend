@@ -18,7 +18,6 @@ router.post(
 );
 router.post("/signup", signup);
 router.get("/users", userList);
-
 router.put(
   "/:userId",
   passport.authenticate("jwt", { session: false }),
