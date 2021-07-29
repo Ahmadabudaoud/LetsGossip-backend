@@ -35,27 +35,30 @@ const generateToken = (user) => {
 exports.updateUser = async (req, res, next) => {
   try {
     const foundUser = await User.findByPk(req.body.userId);
-
+    const conflictUserName = await User.findOne({
+      where: { username: req.body.username },
+    });
+    if (conflictUserName) {
+      res
+        .status(400)
+        .send({ status: 400, message: "Username already exist" })
+        .end();
+    }
     const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(
+    const match = await bcrypt.compare(
       req.body.currentpassword,
-      saltRounds
+      foundUser.password
     );
-    req.body.currentpassword = hashedPassword;
 
-    const match = await bcrypt.compare(hashedPassword, foundUser.password);
-    console.log(hashedPassword, "2");
-    console.log(foundUser.password, "1");
     if (match) {
       const newHashedPassword = await bcrypt.hash(
         req.body.password,
         saltRounds
       );
-      console.log(1);
       req.body.password = newHashedPassword;
       await foundUser.update(req.body);
     } else {
-      res.status(401).end();
+      res.status(400).send({ status: 400, message: "invalid password" }).end();
     }
     res.status(204).end();
   } catch (error) {
