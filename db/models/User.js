@@ -21,5 +21,17 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
+  User.associate = (models) => {
+    models.User.belongsToMany(models.User, {
+      through: models.FriendShip,
+      foreignKey: "firstUserId",
+      as: "from",
+    });
+    models.User.belongsToMany(models.User, {
+      through: models.FriendShip,
+      foreignKey: "secondUserId",
+      as: "to",
+    });
+  };
   return User;
 };

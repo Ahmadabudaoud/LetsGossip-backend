@@ -34,10 +34,27 @@ const generateToken = (user) => {
 
 exports.updateUser = async (req, res, next) => {
   try {
-    const { userId } = req.params;
+    const foundUser = await User.findByPk(req.body.userId);
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(
+      req.body.currentpassword,
+      saltRounds
+    );
+    req.body.currentpassword = hashedPassword;
 
-    const foundUser = await User.findByPk(userId);
-    await foundUser.update(req.body);
+    const match = await bcrypt.compare(
+      (hashedPassword, req.body.currentpassword)
+    );
+    if (match) {
+      const newHashedPassword = await bcrypt.hash(
+        req.body.password,
+        saltRounds
+      );
+      req.body.password = newHashedPassword;
+      await foundUser.update(req.body);
+    } else {
+      res.status(401).end();
+    }
     res.status(204).end();
   } catch (error) {
     next(error);
@@ -61,7 +78,12 @@ exports.userList = async (req, res, next) => {
         },
         {
           model: User,
-          as: "friends",
+          as: "from",
+          attributes: ["id"],
+        },
+        {
+          model: User,
+          as: "to",
           attributes: ["id"],
         },
       ],
