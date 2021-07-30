@@ -27,22 +27,30 @@ const generateToken = (user) => {
     username: user.username,
     exp: Date.now() + JWT_EXPIRATION_MS,
     isAdmin: user.isAdmin,
+    image: user.image,
+    fullname: user.fullname,
   };
   const token = jwt.sign(payload, JWT_SECRET);
   return token;
 };
 
 exports.updateUser = async (req, res, next) => {
+  console.log(req.body);
   try {
     const foundUser = await User.findByPk(req.body.userId);
+
     const conflictUserName = await User.findOne({
       where: { username: req.body.username },
     });
+    // console.log(conflictUserName.username, 1);
+    // console.log(foundUser.username);
     if (conflictUserName) {
-      res
-        .status(400)
-        .send({ status: 400, message: "Username already exist" })
-        .end();
+      if (conflictUserName.username !== foundUser.username) {
+        res
+          .status(401)
+          .send({ status: 401, message: "Username already exist" })
+          .end();
+      }
     }
     const saltRounds = 10;
     const match = await bcrypt.compare(
@@ -58,7 +66,7 @@ exports.updateUser = async (req, res, next) => {
       req.body.password = newHashedPassword;
       await foundUser.update(req.body);
     } else {
-      res.status(400).send({ status: 400, message: "invalid password" }).end();
+      res.status(402).send({ status: 402, message: "invalid password" }).end();
     }
     res.status(204).end();
   } catch (error) {

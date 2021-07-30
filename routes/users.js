@@ -20,6 +20,7 @@ router.post("/signup", signup);
 router.get("/users", userList);
 router.put(
   "/:userId",
+  // upload.single("image"),
   passport.authenticate("jwt", { session: false }),
   updateUser
 );
