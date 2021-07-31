@@ -7,6 +7,7 @@ const {
   signin,
   updateUser,
   userList,
+  updateUserImage,
 } = require("../controllers/userControllers");
 
 const router = express.Router();
@@ -20,8 +21,14 @@ router.post("/signup", signup);
 router.get("/users", userList);
 router.put(
   "/:userId",
-  // upload.single("image"),
   passport.authenticate("jwt", { session: false }),
   updateUser
 );
+router.put(
+  "/:userId/image",
+  upload.single("image"),
+  passport.authenticate("jwt", { session: false }),
+  updateUserImage
+);
+
 module.exports = router;
