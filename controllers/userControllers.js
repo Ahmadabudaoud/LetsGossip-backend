@@ -35,15 +35,11 @@ const generateToken = (user) => {
 };
 
 exports.updateUser = async (req, res, next) => {
-  console.log(req.body);
   try {
     const foundUser = await User.findByPk(req.body.userId);
-
     const conflictUserName = await User.findOne({
       where: { username: req.body.username },
     });
-    // console.log(conflictUserName.username, 1);
-    // console.log(foundUser.username);
     if (conflictUserName) {
       if (conflictUserName.username !== foundUser.username) {
         res
@@ -102,6 +98,19 @@ exports.userList = async (req, res, next) => {
       ],
     });
     res.json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateUserImage = async (req, res, next) => {
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
+    const foundUser = await User.findByPk(req.params.userId);
+    await foundUser.update(req.body);
+    res.status(204).end();
   } catch (error) {
     next(error);
   }
