@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { User, Chat, Message } = require("../db/models");
+const { User, Chat, Message, FriendShip } = require("../db/models");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, JWT_EXPIRATION_MS } = require("../config/keys");
 
@@ -111,6 +111,38 @@ exports.updateUserImage = async (req, res, next) => {
     const foundUser = await User.findByPk(req.params.userId);
     await foundUser.update(req.body);
     res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.foundUser = async (req, res, next) => {
+  try {
+    const foundUser = await User.findOne({
+      where: { id: req.body.userId },
+      attributes: { exclude: ["createdAt", "password", "updatedAt"] },
+      include: [
+        {
+          model: Message,
+          as: "messages",
+        },
+        {
+          model: Chat,
+          as: "chats",
+        },
+        {
+          model: User,
+          as: "from",
+          attributes: { exclude: ["password", "updatedAt"] },
+        },
+        {
+          model: User,
+          as: "to",
+          attributes: { exclude: ["updatedAt", "password"] },
+        },
+      ],
+    });
+    res.json(foundUser);
   } catch (error) {
     next(error);
   }
