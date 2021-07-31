@@ -119,7 +119,7 @@ exports.updateUserImage = async (req, res, next) => {
 exports.foundUser = async (req, res, next) => {
   try {
     const foundUser = await User.findOne({
-      where: { id: req.body.userId },
+      where: { id: req.params.userId },
       attributes: { exclude: ["createdAt", "password", "updatedAt"] },
       include: [
         {
