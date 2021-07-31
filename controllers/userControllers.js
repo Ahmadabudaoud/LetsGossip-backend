@@ -36,7 +36,8 @@ const generateToken = (user) => {
 
 exports.updateUser = async (req, res, next) => {
   try {
-    const foundUser = await User.findByPk(req.body.userId);
+    const foundUser = await User.findByPk(req.params.userId);
+
     const conflictUserName = await User.findOne({
       where: { username: req.body.username },
     });
@@ -64,7 +65,9 @@ exports.updateUser = async (req, res, next) => {
     } else {
       res.status(402).send({ status: 402, message: "invalid password" }).end();
     }
-    res.status(204).end();
+
+    const token = generateToken(foundUser);
+    res.json({ token });
   } catch (error) {
     next(error);
   }
