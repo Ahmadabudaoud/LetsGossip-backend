@@ -8,6 +8,7 @@ const {
   updateUser,
   userList,
   updateUserImage,
+  foundUser,
 } = require("../controllers/userControllers");
 
 const router = express.Router();
@@ -18,7 +19,7 @@ router.post(
   signin
 );
 router.post("/signup", signup);
-router.get("/users", userList);
+// router.get("/users", userList);
 router.put(
   "/:userId",
   passport.authenticate("jwt", { session: false }),
@@ -30,5 +31,5 @@ router.put(
   passport.authenticate("jwt", { session: false }),
   updateUserImage
 );
-
+router.get("/users", foundUser);
 module.exports = router;
