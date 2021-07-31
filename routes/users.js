@@ -31,5 +31,5 @@ router.put(
   passport.authenticate("jwt", { session: false }),
   updateUserImage
 );
-router.get("/users", foundUser);
+router.get("/users/:userId", foundUser);
 module.exports = router;
