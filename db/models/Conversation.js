@@ -10,6 +10,7 @@ module.exports = (sequelize) => {
     models.Chat.belongsToMany(models.User, {
       through: Conversation,
       foreignKey: "chatId",
+      as: "users",
     });
   };
   return Conversation;
