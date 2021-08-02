@@ -9,7 +9,6 @@ exports.chatList = async (req, res, next) => {
         {
           model: Message,
           as: "messages",
-          attributes: ["id"],
         },
         {
           model: User,
@@ -32,6 +31,29 @@ exports.chatCreate = async (req, res, next) => {
     // req.body.userId = req.user.id;
     const newChat = await Chat.create(req.body);
     res.status(201).json(newChat);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.foundChat = async (req, res, next) => {
+  try {
+    const foundChat = await Chat.findOne({
+      where: { id: req.params.chatId },
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+      include: [
+        {
+          model: Message,
+          as: "messages",
+        },
+        {
+          model: User,
+          as: "users",
+          attributes: { exclude: ["password", "updatedAt", "createdAt"] },
+        },
+      ],
+    });
+    res.json(foundChat);
   } catch (error) {
     next(error);
   }
