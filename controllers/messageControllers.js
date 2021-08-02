@@ -1,4 +1,3 @@
-//moodel
 const { Message } = require("../db/models");
 
 exports.messageList = async (req, res, next) => {

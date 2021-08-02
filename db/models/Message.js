@@ -6,14 +6,17 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
     },
   });
+
   SequelizeSlugify.slugifyModel(Message, {
     source: ["name"],
   });
+
   Message.associate = (models) => {
     models.User.hasMany(Message, {
       foreignKey: "userId",
       as: "messages",
     });
+
     Message.belongsTo(models.User, {
       foreignKey: "userId",
       as: "user",
@@ -23,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "chatId",
       as: "messages",
     });
+
     Message.belongsTo(models.Chat, {
       foreignKey: "chatId",
       as: "messages",

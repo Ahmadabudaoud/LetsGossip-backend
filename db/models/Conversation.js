@@ -7,6 +7,7 @@ module.exports = (sequelize) => {
       foreignKey: "userId",
       as: "chats",
     });
+
     models.Chat.belongsToMany(models.User, {
       through: Conversation,
       foreignKey: "chatId",

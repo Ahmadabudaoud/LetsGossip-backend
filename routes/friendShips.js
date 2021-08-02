@@ -15,4 +15,5 @@ router.post(
 );
 
 router.get("/", friendShipList);
+
 module.exports = router;

@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "firstUserId",
       as: "from",
     });
+
     models.User.belongsToMany(models.User, {
       through: models.FriendShip,
       foreignKey: "secondUserId",

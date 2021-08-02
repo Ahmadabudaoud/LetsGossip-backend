@@ -1,4 +1,3 @@
-//moodel
 const { Conversation } = require("../db/models");
 
 exports.conversationList = async (req, res, next) => {

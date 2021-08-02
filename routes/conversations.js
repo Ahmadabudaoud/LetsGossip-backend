@@ -1,8 +1,8 @@
-//setup
+//Setup
 const express = require("express");
 const router = express.Router();
 
-//controllers
+//Controllers
 const {
   conversationList,
   conversationCreate,
@@ -11,7 +11,6 @@ const {
 router.post(
   "/",
   // passport.authenticate("jwt", { session: false }),
-
   conversationCreate
 );
 

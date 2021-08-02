@@ -1,9 +1,9 @@
-//setup
+//Setup
 const express = require("express");
 const router = express.Router();
 const upload = require("../middleware/multer");
 
-//controllers
+//Controllers
 const { chatCreate, foundChat } = require("../controllers/chatControllers");
 
 router.post(
@@ -14,4 +14,5 @@ router.post(
 );
 
 router.get("/:chatId", foundChat);
+
 module.exports = router;

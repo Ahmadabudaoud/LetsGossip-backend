@@ -1,4 +1,3 @@
-//Model
 const { FriendShip } = require("../db/models");
 
 exports.friendShipCreate = async (req, res, next) => {

@@ -1,4 +1,3 @@
-//moodel
 const { Chat, Message, User } = require("../db/models");
 
 exports.chatList = async (req, res, next) => {
@@ -28,7 +27,7 @@ exports.chatCreate = async (req, res, next) => {
     if (req.file) {
       req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
     }
-    // req.body.userId = req.user.id;
+    // req.body.userId = req.user.id; //Remove unused code
     const newChat = await Chat.create(req.body);
     res.status(201).json(newChat);
   } catch (error) {
