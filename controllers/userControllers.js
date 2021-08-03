@@ -132,6 +132,11 @@ exports.foundUser = async (req, res, next) => {
         {
           model: Chat,
           as: "chats",
+          include: {
+            model: User,
+            as: "users",
+            attributes: { exclude: ["password", "updatedAt"] },
+          },
         },
         {
           model: User,

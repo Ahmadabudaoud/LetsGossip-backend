@@ -14,7 +14,7 @@ exports.conversationList = async (req, res, next) => {
 
 exports.conversationCreate = async (req, res, next) => {
   try {
-    const newConversation = await Conversation.create(req.body);
+    const newConversation = await Conversation.bulkCreate(req.body);
     res.status(201).json(newConversation);
   } catch (error) {
     next(error);

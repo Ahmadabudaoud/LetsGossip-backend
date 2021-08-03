@@ -11,7 +11,7 @@ exports.friendShipCreate = async (req, res, next) => {
       const newFriendShip = await FriendShip.create(req.body);
       res.status(201).json(newFriendShip);
     } else {
-      res.json({ message: "Username does not exist" });
+      next();
     }
   } catch (error) {
     next(error);
