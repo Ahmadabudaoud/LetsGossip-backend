@@ -58,3 +58,16 @@ exports.foundChat = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.updateChatImage = async (req, res, next) => {
+  try {
+    if (req.file) {
+      req.body.image = `http://${req.get("host")}/media/${req.file.filename}`;
+    }
+    const foundChat = await Chat.findByPk(req.params.chatId);
+    await foundChat.update(req.body);
+    res.status(204).end();
+  } catch (error) {
+    next(error);
+  }
+};
